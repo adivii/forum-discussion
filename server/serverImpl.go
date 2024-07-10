@@ -6,6 +6,9 @@ import (
 	forumHandlers "adivii/forum-discussion/forum/handlers"
 	forumRepositories "adivii/forum-discussion/forum/repositories"
 	forumUsecases "adivii/forum-discussion/forum/usecases"
+	postHandlers "adivii/forum-discussion/post/handlers"
+	postRepositories "adivii/forum-discussion/post/repositories"
+	postUsecases "adivii/forum-discussion/post/usecases"
 
 	"fmt"
 
@@ -48,12 +51,18 @@ func (e *echoServer) Start() {
 
 func (s *echoServer) initializeHttpHandler() {
 	forumPostgresRepository := forumRepositories.NewForumPostgresRepository(s.db)
+	postPostgresRepository := postRepositories.NewPostPostgresRepository(s.db)
 
 	forumUsecase := forumUsecases.NewForumUsecaseImpl(forumPostgresRepository)
+	postUsecase := postUsecases.NewPostUsecaseImpl(postPostgresRepository)
 
 	forumHttpHandler := forumHandlers.NewForumHttpHandler(forumUsecase)
+	postHttpHandler := postHandlers.NewPostHttpHandler(postUsecase)
 
 	// Routers
 	forumRouters := s.app.Group("api/forum")
 	forumRouters.POST("", forumHttpHandler.InsertForumData)
+
+	postRouters := s.app.Group("api/post")
+	postRouters.POST("", postHttpHandler.InsertPostData)
 }
