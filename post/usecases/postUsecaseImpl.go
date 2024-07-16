@@ -32,3 +32,13 @@ func (p *PostUsecaseImpl) InsertForumData(in *models.AddPostData) error {
 
 	return nil
 }
+
+// GetAllOriginalPost implements PostUsecase.
+func (p *PostUsecaseImpl) GetAllOriginalPost() ([]entities.PostResponseDto, error) {
+	return p.postRepository.GetAllOriginalPost()
+}
+
+// GetPostById implements PostUsecase.
+func (p *PostUsecaseImpl) GetPostById(id int) ([]entities.PostResponseDto, error) {
+	return p.postRepository.GetPostById(id)
+}

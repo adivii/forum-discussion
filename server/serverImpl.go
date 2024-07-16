@@ -61,8 +61,10 @@ func (s *echoServer) initializeHttpHandler() {
 
 	// Routers
 	forumRouters := s.app.Group("api/forum")
-	forumRouters.POST("", forumHttpHandler.InsertForumData)
+	forumRouters.POST("", forumHttpHandler.InsertForumData) // Create new forum
 
 	postRouters := s.app.Group("api/post")
-	postRouters.POST("", postHttpHandler.InsertPostData)
+	postRouters.POST("", postHttpHandler.InsertPostData)    // Create new post
+	postRouters.GET("", postHttpHandler.GetAllOriginalPost) // Get all original post
+	postRouters.GET("/:id", postHttpHandler.GetPostById)
 }
